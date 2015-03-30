@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    
+    <title>MATA65 - Atividade 1</title>
+    <meta charset="utf-8">
+    <script type="text/javascript" src="../../libs/three.min.js"></script>
+    <script type="text/javascript" src="compose.js"></script>
+    
+    <script id="vs" type="x-shader/x-vertex">		
+		varying vec2 vUv;
+		void main(void) {
+			vUv = uv;
+			gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+		}
+	</script>
+    
+	<script id="negative-fs" type="x-shader/x-fragment">
+		precision mediump float;
+		uniform sampler2D texture;
+		varying vec2 vUv;
+			
+		void main(void) {	
+			vec4 c = texture2D(texture, vUv);
+			gl_FragColor = vec4(1.0 - c.r, 1.0 - c.g, 1.0 - c.b, c.a);
+		}
+	</script>  
+    
+    <script id="bright-fs" type="x-shader/x-fragment">
+		precision mediump float;
+		uniform sampler2D texture;
+		uniform float bright;
+		varying vec2 vUv;
+			
+		void main(void) {	
+			vec4 c = texture2D(texture, vUv);
+			gl_FragColor = vec4(c.r * bright, c.g * bright, c.b * bright, c.a);
+		}
+	</script>
+    
+    <script id="gama-fs" type="x-shader/x-fragment">
+		precision mediump float;
+		uniform sampler2D texture;
+		uniform float c2;
+        uniform float y;
+		varying vec2 vUv;
+			
+		void main(void) {	
+			vec4 c = texture2D(texture, vUv);
+			gl_FragColor = vec4(c2 * pow(c.r, y), c2 * pow(c.g, y), c2 * pow(c.b, y), c.a);
+		}
+	</script>    
+
+    <script id="log-fs" type="x-shader/x-fragment">
+		precision mediump float;
+		uniform sampler2D texture;
+		uniform float c2;
+        mediump float i = float(1);
+		varying vec2 vUv;
+			
+		void main(void) {	
+			vec4 c = texture2D(texture, vUv);
+            
+            float red = c.r + i;
+            float green = c.g + i;
+            float blue = c.b + i;
+            
+			gl_FragColor = vec4(c2 * log(red), c2 * log(green), c2 * log(blue), c.a);
+		}
+	</script>    
+    
+	<script id="rgb-fs" type="x-shader/x-fragment">
+		precision mediump float;
+		uniform sampler2D texture;
+		uniform vec3 uChannel;
+		varying vec2 vUv;
+			
+		void main(void) {	
+			vec4 c = texture2D(texture, vUv);
+			gl_FragColor = vec4(c.r*uChannel.r, c.g*uChannel.g, c.b*uChannel.b, c.a);
+		}
+	</script>  
+    
+    <style>
+        body{
+            width: 1000px;
+            margin: 0 auto;
+        }
+        h1{
+            text-align: center;
+        }
+        #controls{
+            float: left;
+            margin-right: 30px;  
+        }
+        .input{
+            width: 50px;
+        }
+        p{
+            width: 200px;
+        }
+    </style>
+    
+</head>
+
+<body onload="init();">
+    
+    <h1>Atividade 1 : Transformação de Intensidade</h1>
+    
+    <div id="controls">
+        
+        <h2>Transformações</h2>
+        
+        <h3>Negativo</h3>
+        <input type="button" value="Transformar" onclick="negativeTransform();">
+        
+        <h3>RGB</h3>
+        <input type="button" value="Transformar" onclick="rgbTransform();">
+
+        <h3>Brilho</h3>
+        Intensidade <input type="text" id="bright-intensity" class="input">
+        <input type="button" value="Transformar" onclick="brightTransform();">
+        <p>
+            Observação: valores maiores que 1 deixam a imagem mais clara e menores que 1 mais escura
+        </p>
+
+        <h3>Gama</h3>
+        C <input type="text" id="c-gama" class="input">
+        γ <input type="text" id="y-gama" class="input">
+        <input type="button" value="Transformar" onclick="gamaTransform();">
+        
+        <h3>Log</h3>
+        C <input type="text" id="c-log" class="input">
+        <input type="button" value="Transformar" onclick="logTransform();">
+        
+    </div>
+    
+    <div id="WebGL-output" style="float:left;"></div>
+    
+</body>
+
+</html>

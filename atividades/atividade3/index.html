@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+      <title>MATA65 - Atividade 3</title>
+      <meta charset="utf-8">
+      <script type="text/javascript" src="three.min.js"></script>
+      <script type="text/javascript" src="jquery-1.11.2.min.js"></script>
+      <script type="text/javascript" src="jquery-ui.min.js"></script>
+      <script type="text/javascript" src="TrackballControls.js"></script>
+      <script type="text/javascript" src="atividade3.js"></script>
+      <script type="text/javascript">
+      
+        $(function(){
+            var spinnerN1 = $( "#n1" ).spinner({ step: 0.1, min: 0.1,
+                  numberFormat: "n",
+                  spin: function( event, ui ) { calculate(); }
+            });
+            var spinnerN2 = $( "#n2" ).spinner({ step: 0.1, min: 0.1,
+                  numberFormat: "n",
+                  spin: function( event, ui ) { calculate(); }
+            });
+            var spinnerA = $( "#a" ).spinner({ step: 0.1, min: 0.1,
+                  numberFormat: "n",
+                  spin: function( event, ui ) { calculate(); }
+            });
+            var spinnerB = $( "#b" ).spinner({ step: 0.1, min: 0.1,
+                  numberFormat: "n",
+                  spin: function( event, ui ) { calculate(); }
+            });
+            var spinnerC = $( "#c" ).spinner({ step: 0.1, min: 0.1,
+                  numberFormat: "n",
+                  spin: function( event, ui ) { calculate(); }
+            });
+            
+            $("#n1").change(function(){calculate();});
+            $("#n2").change(function(){calculate();});
+            $("#a").change(function(){calculate();});
+            $("#b").change(function(){calculate();});
+            $("#c").change(function(){calculate();});
+            
+            var msg = "Como usar: Com N1 e N2 controla-se a forma da geometria e com A,B e C controla-se o tamanho da geometria na dirção dos eixos X,Y e Z respectivamente. Para mudar os valores que definem a geometria é preciso clicar na setas para cima e para baixo que mudam valores de 0.1 em 0.1(mantendo presionado muda os valores mais rapidamente) ou também pode-se digitar os valores nos campos e apertar enter ou tira o foco do campo de input após mudar o valor. Essas ações mudam a forma da figura automaticamente. Há controle de camera. Mantendo o botão esquerdo do mouse presionado e movimentando-o é possivel rotacionar a figura. Mantendo o botão direito do mouse presionado e movimentado-o é possivel mudar a posição da camera.";
+            alert(msg);
+            
+        });
+          
+      </script>
+      
+      <style>
+      
+          body{
+            margin: 0;
+          }
+          
+      </style>
+      
+  </head>
+
+  <body onload="init();">
+      N1 <input type="text" size="4" name="n1" id="n1" value="2.0" >
+      N2 <input type="text" size="4" name="n2" id="n2" value="2.0">
+      A <input type="text" size="4" name="a" id="a" value="5">
+      B <input type="text" size="4" name="b" id="b" value="5">
+      C <input type="text" size="4" name="c" id="c" value="5">
+  </body>
+
+</html>
